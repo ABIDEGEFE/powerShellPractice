@@ -44,4 +44,55 @@ Note: `Help` is not an alias for `Get-Help`. It pipes the output through a funct
 
 ---
 
+## Lesson Two: `Get-Member`  
+---
+
+In PowerShell, **everything is treated as an object**, which means commands return structured data with properties and methods. To explore these members and understand how to interact with them, we use the `Get-Member` cmdlet.
+
+### 🔍 Inspecting Object Members
+
+To view all available members (properties, methods, etc.) of a specific object, pipe the output into `Get-Member`:
+
+```powershell
+Get-Process svchost | Get-Member
+```
+
+This command reveals the full list of members associated with the `svchost` process object. For example, if you notice an `Id` property, you can access it directly:
+
+```powershell
+(Get-Process svchost).Id
+```
+
+### 🔎 Discovering Related Cmdlets
+
+The first line of the `Get-Member` output shows the object type (e.g., `System.Diagnostics.Process`). You can use this type to find related cmdlets using `Get-Command`:
+
+```powershell
+Get-Command -ParameterType Process
+```
+
+This returns all cmdlets that accept a `Process` object as a parameter.
+
+---
+
+## 🎯 Filtering `Get-Member` Output
+
+Since `Get-Member` returns an object, you can filter its output using `Select-Object` to display specific columns:
+
+```powershell
+Get-Process svchost | Get-Member | Select-Object Name, MemberType
+```
+
+This displays only the `Name` and `MemberType` columns.
+
+To filter by **row**, such as viewing only methods:
+
+```powershell
+Get-Process svchost | Get-Member -MemberType Method
+```
+
+This returns only the members classified as methods.
+
+---
+
 
